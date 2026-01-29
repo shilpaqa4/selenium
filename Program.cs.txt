@@ -1,0 +1,48 @@
+using Microsoft.Playwright;
+using System;
+using System.Threading.Tasks;
+
+class Program
+{
+    public static async Task Main(string[] args)
+    {
+        Console.WriteLine("Starting Playwright test...");
+
+        using var playwright = await Playwright.CreateAsync();
+
+        await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        {
+            Headless = false,
+            SlowMo = 500
+        });
+
+        var context = await browser.NewContextAsync();
+        var page = await context.NewPageAsync();
+
+        await page.GotoAsync("https://YOUR_BOOKING_SITE_URL");
+        Console.WriteLine("Website loaded.");
+
+        await page.ClickAsync("text=Complete booking");
+        Console.WriteLine("'Complete booking' clicked.");
+
+        await page.SelectOptionAsync("select", new SelectOptionValue { Value = "3" });
+        Console.WriteLine("Party size set to 3.");
+
+        await page.FillAsync("input[type='date']", "2026-02-11");
+        Console.WriteLine("Dining date selected.");
+
+        await page.FillAsync("input[type='time']", "12:00");
+        Console.WriteLine("Time selected.");
+
+        await page.ScreenshotAsync(new PageScreenshotOptions
+        {
+            Path = "booking_result.png",
+            FullPage = true
+        });
+
+        Console.WriteLine("Screenshot captured.");
+        Console.WriteLine("TEST PASSED SUCCESSFULLY ✔");
+
+        await browser.CloseAsync();
+    }
+}
