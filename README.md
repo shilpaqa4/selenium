@@ -14,7 +14,9 @@ This project demonstrates browser automation using **Playwright**.
 
 ## How to Run
 ```
-open folder in vs code 
+create wits assesment in local 
+open this folder in vs code and install playwright using "npm init playwright@latest" in teminal
+crete folder name screenshots under project
 npx playwright test Complete_booking_video.spec.ts
 npx playwright test Complete_booking_screenshot.spec.ts
 
